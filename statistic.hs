@@ -20,7 +20,29 @@ calc timesheet = [
   ("Total", sum [y | (x, y) <- timesheet]) 
   ]
 
--- macro result field = (@field, sum [y | (x, y) <- result, x == @field)
--- calc expr = [macro result "QA"]
+---
+--- curruring could be very interesting
+---
 
--- zip [1..] ["apple", "orange", "cherry", "mango"]  
+-- base expr status = (status, sum [y | (x, y) <- [detail x | x <- expr], x == status])
+-- inStatus = base "dddDDd"
+
+-- inStatus "QA"
+-- inStatus "Dev"
+
+
+--- calc (parse "dddDDd")
+--- 
+
+sumByStatus expr status = (status, sum [y | (x, y) <- [(x, 1) | x <- expr, x == status]])
+output (code, amount) = 
+  let 
+    (status, weight) = detail code
+  in
+    (status, amount * weight)
+
+
+-- withExpr = sumByStatus "dddDDd"
+-- withExpr 'D'
+
+-- (status, weight) <- detail x
